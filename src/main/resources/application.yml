@@ -1,0 +1,9 @@
+spring:
+  mvc:
+    view:
+      prefix:  /WEB-INF/jsp/
+      suffix: .jsp
+telegram:
+   bot:
+      name: CyberIvanBot
+      token: 227499389:AAGopRsLGq5-sRvYzMVTUDW8YXZyvQ3eldY
