@@ -7,3 +7,5 @@ telegram:
    bot:
       name: CyberIvanBot
       token: 227499389:AAGopRsLGq5-sRvYzMVTUDW8YXZyvQ3eldY
+      hello_text: Привет
+      error_text: Не знаю, че это такое

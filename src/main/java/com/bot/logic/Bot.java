@@ -22,11 +22,17 @@ public class Bot extends org.telegram.telegrambots.bots.TelegramLongPollingBot {
     @Autowired
     private org.springframework.scheduling.quartz.SchedulerFactoryBean schedulerFactoryBean;
 
-    @Value("${telegram.bot.name}")
+    @Value("${telegram.bot.token}")
     private String botToken;
 
-    @Value("${telegram.bot.token}")
+    @Value("${telegram.bot.name}")
     private String botUsername;
+
+    @Value("${telegram.bot.hello_text}")
+    private String hello_text;
+
+    @Value("${telegram.bot.error_text}")
+    private String error_text;
 
     private TelegramBotsApi telegramBotsApi;
 
@@ -41,9 +47,9 @@ public class Bot extends org.telegram.telegrambots.bots.TelegramLongPollingBot {
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
             if (message.getText().equals("/help"))
-                sendMsg(message, "Привет, я робот");
+                sendMsg(message, hello_text);
             else
-                sendMsg(message, "Я не знаю что ответить на это");
+                sendMsg(message, error_text);
         }
     }
 
