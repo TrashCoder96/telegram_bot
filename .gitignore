@@ -1,8 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/*
 build/*
+out/*
 .idea/
 build/
+out/
 classes/
 src/test/
-/out/*
+
