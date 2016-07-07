@@ -14,9 +14,6 @@ apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 repositories {
     mavenCentral()
     maven { url "https://jitpack.io" }
@@ -27,9 +24,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
     compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '8.0.33'
-    compile('org.springframework:spring-context-support:4.2.5.RELEASE')
+    compile('org.springframework:spring-context-support')
     compile('org.quartz-scheduler:quartz:2.2.2')
-    compile('org.springframework:spring-tx:4.2.5.RELEASE')
+    compile('org.springframework:spring-tx')
+    compile("org.springframework.boot:spring-boot-starter-security")
     compile('com.github.rubenlagus:TelegramBots:v2.3.3.3')
-
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
 }

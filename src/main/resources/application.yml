@@ -3,11 +3,20 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
-telegram:
-   bot:
+  telegram:
+    bot:
       name: CyberIvanBot
       token: 227499389:AAGopRsLGq5-sRvYzMVTUDW8YXZyvQ3eldY
       hello_text: Привет
       error_text: Не знаю, че это такое
       cron: 0/5 * * * * ?
       vk_public_id: -72495085
+  application:
+      name: space
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: space
+      login: space
+      password: space
