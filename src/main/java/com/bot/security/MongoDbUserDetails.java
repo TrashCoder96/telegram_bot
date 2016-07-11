@@ -20,13 +20,13 @@ public class MongoDbUserDetails implements UserDetails {
 
 	private List<GrantedAuthority> authorities;
 
-	private Boolean accountNonExpired;
+	private Boolean accountNonExpired = true;
 
-	private Boolean accountNonLocked;
+	private Boolean accountNonLocked = true;
 
-	private Boolean credentialsNonExpired;
+	private Boolean credentialsNonExpired = true;
 
-	private Boolean enabled;
+	private Boolean enabled = true;
 
 	public MongoDbUserDetails(String username, String password, List<String> roles) {
 		this.setUsername(username);
@@ -36,7 +36,6 @@ public class MongoDbUserDetails implements UserDetails {
 			this.authorities.add(new SimpleGrantedAuthority(role));
 		}
 	}
-
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

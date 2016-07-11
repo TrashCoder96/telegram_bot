@@ -1,6 +1,8 @@
 package com.bot.service;
 
+import com.bot.data.Account;
 import com.bot.data.repository.AccountRepository;
+import com.bot.security.MongoDbUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +18,8 @@ public class MongoDbUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return null;
+		Account account = accountRepository.findByEmail(username);
+		MongoDbUserDetails mongoDbUserDetails = new MongoDbUserDetails(account.getEmail(), account.getPassword(), account.getRoles());
+		return mongoDbUserDetails;
 	}
 }

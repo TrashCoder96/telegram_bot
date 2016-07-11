@@ -1,11 +1,15 @@
 package com.bot.web;
 
+import com.bot.data.Account;
+import com.bot.data.repository.AccountRepository;
 import com.bot.logic.Bot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
 
 /**
  * Created by itimofeev on 16.06.2016.
@@ -15,13 +19,23 @@ import org.springframework.web.servlet.ModelAndView;
 public class ManagementController {
 
     @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
     private Bot bot;
 
-    @RequestMapping(value = {"/" , "/run"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/run"}, method = RequestMethod.GET)
     public ModelAndView run() {
         ModelAndView model = new ModelAndView();
         model.setViewName("index");
         model.addObject("text", "runned");
+        Account account = new Account();
+        account.setRoles(new ArrayList<String>());
+        account.getRoles().add("ROLE_GAMER");
+        account.getRoles().add("ROLE_USER");
+        account.setEmail("kiberaction@yandex.ru");
+        account.setPassword("123");
+        accountRepository.save(account);
         return model;
     }
 
