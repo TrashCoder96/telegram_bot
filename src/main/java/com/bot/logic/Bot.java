@@ -1,20 +1,24 @@
 package com.bot.logic;
 
-import org.glassfish.grizzly.utils.ArrayUtils;
+import com.bot.data.Comparison;
+import com.bot.data.repository.ComparisonRepository;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.TelegramApiException;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
-
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
+import java.util.regex.*;
 
 /**
  * Created by itimofeev on 16.06.2016.
@@ -22,6 +26,9 @@ import java.util.UUID;
 
 @Component("bot")
 public class Bot extends org.telegram.telegrambots.bots.TelegramLongPollingBot {
+
+    @Autowired
+    private ComparisonRepository comparisonRepository;
 
     @Autowired
     private org.springframework.scheduling.quartz.SchedulerFactoryBean schedulerFactoryBean;
@@ -66,6 +73,23 @@ public class Bot extends org.telegram.telegrambots.bots.TelegramLongPollingBot {
         Long chatId = message.getChatId();
         Boolean condition = message != null && message.hasText();
         try {
+            if (condition) {
+                Pattern pattern = Pattern.compile("/add <.*> <.*>");
+                java.util.regex.Matcher matcher = pattern.matcher(message.getText());
+                if (matcher.matches()) {
+                    Comparison comparison = new Comparison();
+                    comparison.setResponse(Pattern.compile("<.*?>").matcher(message.getText()).group(2).replace("<","").replace(">",""));
+                    comparison.setRequest(Pattern.compile("<.*?>").matcher(message.getText()).group(1).replace("<","").replace(">",""));
+                    comparisonRepository.save(comparison);
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText("Команда добавлена типо");
+                    sendMessage.setChatId(chatId.toString());
+                    this.sendMessage(sendMessage);
+                    return;
+                }
+            }
+
+
         if (condition && message.getText().equals("/start")) {
             this.listOfChatIds.add(chatId);
             SendMessage sendMessage = new SendMessage();
@@ -106,6 +130,26 @@ public class Bot extends org.telegram.telegrambots.bots.TelegramLongPollingBot {
             this.sendMsg(message, hello_text);
             return;
         }
+
+            if (condition) {
+                Comparison comparison = comparisonRepository.findByRequest(message.getText());
+                if (comparison != null) {
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(comparison.getResponse());
+                    sendMessage.setChatId(chatId.toString());
+                    this.sendMessage(sendMessage);
+                    return;
+                } else {
+                    Random r = new Random();
+                    Page<Comparison> page = comparisonRepository.findAll(new PageRequest(r.nextInt((int)comparisonRepository.count()), 1));
+                    Comparison randomComparison = page.getContent().get(0);
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText(randomComparison.getResponse());
+                    sendMessage.setChatId(chatId.toString());
+                    this.sendMessage(sendMessage);
+                    return;
+                }
+            }
 
         SendMessage sendMessage = new SendMessage();
         sendMessage.setText(error_text);

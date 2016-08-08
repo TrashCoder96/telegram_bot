@@ -27,7 +27,6 @@ dependencies {
     compile('org.springframework:spring-context-support')
     compile('org.quartz-scheduler:quartz:2.2.2')
     compile('org.springframework:spring-tx')
-    compile("org.springframework.boot:spring-boot-starter-security")
     compile('com.github.rubenlagus:TelegramBots:v2.3.3.3')
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
 }

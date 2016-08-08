@@ -1,3 +1,5 @@
+
+
 spring:
  application:
   name: space
@@ -9,9 +11,9 @@ spring:
   mongodb:
    host: localhost
    port: 27017
-   database: space
-   login: space
-   password: space
+   database: telegram
+   login: telegram
+   password: telegram
 telegram:
  bot:
   name: CyberIvanBot
@@ -20,3 +22,5 @@ telegram:
   error_text: Не знаю, че это такое
   cron: 0/5 * * * * ?
   vk_public_id: -72495085
+server:
+  port: 8090
